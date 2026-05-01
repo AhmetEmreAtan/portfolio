@@ -89,14 +89,6 @@ export default function Hero() {
         className="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-20 w-full"
       >
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="max-w-4xl">
-          {/* Badge */}
-          <motion.div variants={itemVariants} className="mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-indigo-500/20 text-sm text-indigo-300 font-medium">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              {t.hero.badge}
-            </span>
-          </motion.div>
-
           {/* Heading */}
           <motion.h1
             variants={itemVariants}

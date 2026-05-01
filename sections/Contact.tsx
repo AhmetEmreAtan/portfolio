@@ -96,13 +96,6 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-white mb-1">{t.contact.availability}</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-sm text-green-400 font-medium">{t.contact.availableText}</span>
-                  </div>
-                </div>
               </div>
             </AnimatedSection>
 
