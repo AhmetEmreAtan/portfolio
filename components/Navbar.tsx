@@ -3,26 +3,27 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navbar() {
+  const { t, toggleLang, lang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const navLinks = [
+    { href: "#about", label: t.nav.about },
+    { href: "#projects", label: t.nav.projects },
+    { href: "#skills", label: t.nav.skills },
+    { href: "#experience", label: t.nav.experience },
+    { href: "#contact", label: t.nav.contact },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
-      for (const id of sections.reverse()) {
+      const sections = ["about", "projects", "skills", "experience", "contact"];
+      for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) {
           setActiveSection(id);
@@ -30,7 +31,6 @@ export default function Navbar() {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -49,19 +49,14 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "glass border-b border-white/5 py-3"
-            : "py-5 bg-transparent"
+          scrolled ? "glass border-b border-white/5 py-3" : "py-5 bg-transparent"
         )}
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <motion.a
             href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             className="text-xl font-bold tracking-tight"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -80,9 +75,7 @@ export default function Navbar() {
                   onClick={() => handleNavClick(link.href)}
                   className={cn(
                     "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
-                    isActive
-                      ? "text-white"
-                      : "text-white/50 hover:text-white/80"
+                    isActive ? "text-white" : "text-white/50 hover:text-white/80"
                   )}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
@@ -99,42 +92,60 @@ export default function Navbar() {
               );
             })}
 
+            {/* Lang toggle */}
+            <motion.button
+              onClick={toggleLang}
+              className="ml-1 px-3 py-2 text-sm font-mono font-semibold text-white/40 hover:text-white glass border border-white/8 hover:border-white/20 rounded-lg transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title={lang === "tr" ? "Switch to English" : "Türkçeye Geç"}
+            >
+              {t.nav.langSwitch}
+            </motion.button>
+
             <motion.a
               href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#contact");
-              }}
-              className="ml-3 px-4 py-2 text-sm font-semibold bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg transition-colors duration-200"
+              onClick={(e) => { e.preventDefault(); handleNavClick("#contact"); }}
+              className="ml-2 px-4 py-2 text-sm font-semibold bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg transition-colors duration-200"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              Hire Me
+              {t.nav.hire}
             </motion.a>
           </nav>
 
-          {/* Mobile menu button */}
-          <motion.button
-            className="md:hidden relative w-8 h-8 flex flex-col justify-center items-center gap-1.5"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            whileTap={{ scale: 0.9 }}
-          >
-            <motion.span
-              className="block w-5 h-0.5 bg-white/70 rounded-full origin-center"
-              animate={mobileOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.25 }}
-            />
-            <motion.span
-              className="block w-5 h-0.5 bg-white/70 rounded-full"
-              animate={mobileOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.span
-              className="block w-5 h-0.5 bg-white/70 rounded-full origin-center"
-              animate={mobileOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.25 }}
-            />
-          </motion.button>
+          {/* Mobile: lang toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-3">
+            <motion.button
+              onClick={toggleLang}
+              className="px-2.5 py-1.5 text-xs font-mono font-semibold text-white/40 hover:text-white glass border border-white/8 rounded-lg transition-all"
+              whileTap={{ scale: 0.9 }}
+            >
+              {t.nav.langSwitch}
+            </motion.button>
+
+            <motion.button
+              className="relative w-8 h-8 flex flex-col justify-center items-center gap-1.5"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              whileTap={{ scale: 0.9 }}
+            >
+              <motion.span
+                className="block w-5 h-0.5 bg-white/70 rounded-full origin-center"
+                animate={mobileOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25 }}
+              />
+              <motion.span
+                className="block w-5 h-0.5 bg-white/70 rounded-full"
+                animate={mobileOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span
+                className="block w-5 h-0.5 bg-white/70 rounded-full origin-center"
+                animate={mobileOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25 }}
+              />
+            </motion.button>
+          </div>
         </div>
       </motion.header>
 
@@ -173,7 +184,7 @@ export default function Navbar() {
                 onClick={() => handleNavClick("#contact")}
                 className="mt-2 px-4 py-3 rounded-lg text-sm font-semibold bg-indigo-500 hover:bg-indigo-400 text-white transition-colors text-left"
               >
-                Hire Me
+                {t.nav.hire}
               </motion.button>
             </nav>
           </motion.div>

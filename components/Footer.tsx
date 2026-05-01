@@ -1,23 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiGithub, FiLinkedin, FiTwitter, FiMail } from "react-icons/fi";
+import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const socials = [
-  { icon: FiGithub, href: "https://github.com/ahmetemreatan", label: "GitHub" },
-  { icon: FiLinkedin, href: "https://linkedin.com/in/ahmetemreatan", label: "LinkedIn" },
-  { icon: FiTwitter, href: "https://twitter.com/ahmetemreatan", label: "Twitter" },
-  { icon: FiMail, href: "mailto:hello@ahmetemreatan.dev", label: "Email" },
+  { icon: FiGithub, href: "https://github.com/AhmetEmreAtan", label: "GitHub" },
+  { icon: FiLinkedin, href: "https://www.linkedin.com/in/ahmet-emre-atan-4538ab1a9/", label: "LinkedIn" },
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-white/5 py-10 px-6">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div>
           <span className="gradient-text font-bold text-xl">AEA</span>
           <span className="text-white/20 text-sm ml-3">
-            © {new Date().getFullYear()} Ahmet Emre Atan
+            © {new Date().getFullYear()} {t.footer.copyright}
           </span>
         </div>
 

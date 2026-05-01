@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,14 +16,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmet Emre Atan | Full-Stack Developer",
+  title: "Ahmet Emre Atan | Android & Full-Stack Geliştirici",
   description:
-    "Personal portfolio of Ahmet Emre Atan — a passionate full-stack developer building modern web and mobile applications.",
-  keywords: ["developer", "portfolio", "next.js", "react", "full-stack"],
+    "Ahmet Emre Atan'ın kişisel portfolyosu — Kotlin, Android ve web teknolojileri ile modern uygulamalar geliştiren tutkulu bir yazılım geliştirici.",
+  keywords: ["android", "kotlin", "geliştirici", "portfolio", "mobil uygulama", "noc", "koçsistem"],
   authors: [{ name: "Ahmet Emre Atan" }],
   openGraph: {
-    title: "Ahmet Emre Atan | Full-Stack Developer",
-    description: "Personal portfolio showcasing projects and skills.",
+    title: "Ahmet Emre Atan | Android & Full-Stack Geliştirici",
+    description: "Kotlin, Android ve web teknolojileri üzerine kişisel portfolyo.",
     type: "website",
   },
 };
@@ -33,9 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="tr" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="bg-[#0a0a0d] text-[#e8e8f0] antialiased font-sans">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
